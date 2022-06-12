@@ -23,21 +23,26 @@ module.exports = {
     },
     detailPage :  async(req, res) => {
         try {
-            const { id } = req.params
-            const voucher = await Voucher.findOne({ _id : id })
-            .select('_id name status category thumbnail')
-            .populate('category')
-            .populate('nominals')
-            
-            if(!voucher) {
-               return res.status(404).json({message : `voucher game tidak ditemukan.!` })
+            const voucher = await Voucher.findOne({ _id: req.params.id })
+              .populate('user', '_id name phone_number')
+              .populate('category')
+              .populate('nominals')
+      
+            const payment = await Payment.find().populate('banks')
+      
+            if (!voucher) {
+              return res.status(404).json({ message: "voucher game tidak ditemukan.!" })
             }
-
-            res.status(200).json({data : voucher })
-          
-        } catch (error) {
-           res.status(500).json({message : error.message || `internal server error`})
-        }
+      
+            res.status(200).json({
+              data: {
+                detail: voucher,
+                payment
+              }
+            })
+          } catch (err) {
+            res.status(500).json({ message: err.message || "Internal server error" })
+          }
     },
     category :  async(req, res) => {
         try {
