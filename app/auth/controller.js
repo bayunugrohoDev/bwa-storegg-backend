@@ -27,7 +27,7 @@ module.exports = {
                         delete player._doc.password // ??
                         res.status(201).json({ data : player })
 
-                    } catch (err) {
+                    } catch (error) {
                         if(error && error.name === 'validationError') {
                             res.status(422).json({
                                 message : error.message,
