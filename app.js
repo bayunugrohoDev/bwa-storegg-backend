@@ -6,7 +6,7 @@ var logger = require('morgan');
 var methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash');
-const cors = require('cors')
+var cors = require('cors')
 
 const categoryRouter = require('./app/category/router.js');
 const dashboardRouter = require('./app/dashboard/router.js');
