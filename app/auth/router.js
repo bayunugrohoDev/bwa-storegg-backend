@@ -5,8 +5,8 @@ const os = require('os')
 
 const { signup, signin } = require('./controller')
 
-router.post('/signup', multer({dest:os.tmpdir()}).single('image'), signup);
 router.post('/signin', signin);
+router.post('/signup', multer({dest:os.tmpdir()}).single('image'), signup);
 
 
 module.exports = router;

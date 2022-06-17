@@ -8,8 +8,9 @@ module.exports = {
     signup :  async(req, res, next) => {
         try {
             const payload = req.body  
-
+            console.log(payload);
             if(req.file ) {
+                console.log("ada file");
                 let tmp_path = req.file.path;
                 let originaExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
                 let filename = req.file.filename + '.' + originaExt;
@@ -27,17 +28,21 @@ module.exports = {
                         delete player._doc.password // ??
                         res.status(201).json({ data : player })
 
-                    } catch (error) {
-                        if(error && error.name === 'validationError') {
+                    }catch (error) {
+                        console.log("error : ")
+                        // console.log(error)   
+                        if(error && error.name === 'ValidationError') {
                             res.status(422).json({
+                                error : 1,
                                 message : error.message,
                                 fields : error.errors
                             })
                         }
-                        next()
+                        next(error)
                     }
                 })
             }else {
+                console.log("tidak ada file")
                     let player = new Player(payload)
                     await player.save()
                     delete player._doc.password // ??
@@ -45,7 +50,8 @@ module.exports = {
             }
 
         } catch (error) {
-            if(error && error.name === 'validationError') {
+            console.log(error)
+            if(error && error.name === 'ValidationError') {
                 res.status(422).json({
                     message : error.message,
                     fields : error.errors

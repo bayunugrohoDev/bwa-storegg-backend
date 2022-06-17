@@ -283,7 +283,7 @@ module.exports = {
                 })
             }
         } catch (error) {
-            if(error && error.name === "validationError") {
+            if(error && error.name === "ValidationError") {
                res.status(422).json({
                    error : 1,
                    message : error.message || `internal server error`,
